@@ -1,0 +1,6 @@
+XposedBridge
+local*
+build
+gradlew*
+.gradle
+gradle
