@@ -36,7 +36,6 @@ if [ -z "$COMPANY_NAME" -o -z "$HOOKS_FILE" -o -z "$SDK_DIR" -o -z "$ROOT_PROJEC
     echo "Usage: $0 --company your.company.name.here -xposed-desc 'xposed description' -hooks-filename HooksFileNameWithNoJavaExtension - ROOT_PROJECT_NAME --sdk-dir android/sdk/dir"
     echo "Xposed description is the only optional argument"
 fi
-exit
 
 PACKAGE_NAME="$COMPANY_NAME.$ROOT_PROJECT"
 
