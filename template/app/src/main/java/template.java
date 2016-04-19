@@ -11,7 +11,7 @@ public class #{HOOKS_FILE} implements IXposedHookLoadPackage {
     public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
         if (!lpparam.packageName.equals("app.to.hook"))
             return;
-        XposedBridge.log("#{PACKAGE_NAME} loaded!")
+        XposedBridge.log("#{PACKAGE_NAME} loaded!");
         //hooks go here!
     }
 }
