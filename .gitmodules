@@ -1,0 +1,3 @@
+[submodule "XposedBridge"]
+	path = XposedBridge
+	url = https://github.com/rovo89/XposedBridge
