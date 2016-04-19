@@ -25,25 +25,29 @@ public class Hooks implements IXposedHookLoadPackage {
         findAndHookMethod("com.google.android.music.playback.TrackInfo", lpparam.classLoader, "getArtistName", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable{
-                ctx = AndroidAppHelper.currentApplication().createPackageContext("de.havefuninsi.noswift", Context.CONTEXT_IGNORE_SECURITY);
                 String result = (String)param.getResult();
                 Class<?> c = param.thisObject.getClass();
                 Field f = c.getDeclaredField("mTrackName");
                 f.setAccessible(true);
                 String tempTrackName = (String)f.get(param.thisObject);
-                if (result.toLowerCase().contains("taylor swift") && !trackName.equals(tempTrackName)){
-                    trackName = tempTrackName;
-                    XposedBridge.log("NoSwift: " + result);
-                    Intent i = new Intent(Intent.ACTION_MEDIA_BUTTON);
-                    synchronized (this) {
-                                i.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT));
-                                ctx.sendOrderedBroadcast(i, null);
-
-                                i.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT));
-                                ctx.sendOrderedBroadcast(i, null);
-                    }
-                }
+                deswift(tempTrackName, result);
             }
         });
+    }
+
+    private void deswift(String tempTrackName, String result) throws Throwable {
+        if (result.toLowerCase().contains("taylor swift") && !trackName.equals(tempTrackName)){
+            ctx = AndroidAppHelper.currentApplication().createPackageContext("de.havefuninsi.noswift", Context.CONTEXT_IGNORE_SECURITY);
+            trackName = tempTrackName;
+            XposedBridge.log("NoSwift: " + result);
+            Intent i = new Intent(Intent.ACTION_MEDIA_BUTTON);
+            synchronized (this) {
+                        i.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT));
+                        ctx.sendOrderedBroadcast(i, null);
+
+                        i.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT));
+                        ctx.sendOrderedBroadcast(i, null);
+            }
+        }
     }
 }
