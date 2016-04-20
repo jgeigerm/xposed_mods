@@ -51,7 +51,7 @@ sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" "$ROOT_PROJECT/app/src/main/java/template
 rm "$ROOT_PROJECT/app/src/main/java/template.java"
 
 sed "s/#{ROOT_PROJECT}/$ROOT_PROJECT/" template/settings.gradle > "$ROOT_PROJECT/settings.gradle"
-sed "s/#{HOOKS_FILE}/$HOOKS_FILE/" template/app/src/main/assets/xposed_init > "$ROOT_PROJECT/app/src/main/assets/xposed_init"
+sed "s/#{HOOKS_FILE}/$HOOKS_FILE/" template/app/src/main/assets/xposed_init | sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" > "$ROOT_PROJECT/app/src/main/assets/xposed_init"
 sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" template/app/build.gradle > "$ROOT_PROJECT/app/build.gradle"
 sed "s/#{XPOSED_DESCRIPTION}/$XPOSED_DESC/" template/app/src/main/AndroidManifest.xml | sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" > "$ROOT_PROJECT/app/src/main/AndroidManifest.xml"
 sed "s/#{ROOT_PROJECT}/$ROOT_PROJECT/" template/app/src/main/res/values/strings.xml > "$ROOT_PROJECT/app/src/main/res/values/strings.xml"
