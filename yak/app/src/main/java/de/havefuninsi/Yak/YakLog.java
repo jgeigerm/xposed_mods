@@ -14,10 +14,11 @@ public class YakLog implements IXposedHookLoadPackage {
     public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
         if (!lpparam.packageName.equals("com.yik.yak"))
             return;
+        XposedBridge.log("loaded yaklog");
         findAndHookMethod("java.lang.String", lpparam.classLoader, "getBytes", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable{
-                XposedBridge.log((String)param.thisObject);
+                XposedBridge.log("GOTBYTES: " + (String)param.thisObject);
             }
         });
         //disable certificate pinning

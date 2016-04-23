@@ -5,3 +5,5 @@ If you want to compile the latest XposedBridge, the link in libs is to<br>
 so you can git clone --recursive, cd into the XposedBridge folder, and then run <br>
 gradle jarReleaseClasses. It should work fine. If you have another version of XposedBridge<br>
 just replace the symlink in libs.
+
+Presentation here: https://docs.google.com/presentation/d/1pZGH-1g6Sz4DzryFmz0YQmSVAntfKsbsN8pHdhFfbww/edit#slide=id.p
