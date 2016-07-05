@@ -40,8 +40,9 @@ fi
 
 PACKAGE_NAME="$COMPANY_NAME.$ROOT_PROJECT"
 
-cp -r template "$ROOT_PROJECT" || exit
-sed "s%#{SDK_DIR}%$SDK_DIR%" template/local.properties > "$ROOT_PROJECT/local.properties"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cp -r "$DIR/template" "$ROOT_PROJECT" || exit
+sed "s%#{SDK_DIR}%$SDK_DIR%" "$DIR/template/local.properties" > "$ROOT_PROJECT/local.properties"
 DIRS="$ROOT_PROJECT/app/src/main/java"
 for i in `echo $PACKAGE_NAME | tr '.' ' '`; do
     DIRS="$DIRS/$i"
@@ -50,8 +51,8 @@ done
 sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" "$ROOT_PROJECT/app/src/main/java/template.java" | sed "s/#{HOOKS_FILE}/$HOOKS_FILE/" > "$DIRS/$HOOKS_FILE.java"
 rm "$ROOT_PROJECT/app/src/main/java/template.java"
 
-sed "s/#{ROOT_PROJECT}/$ROOT_PROJECT/" template/settings.gradle > "$ROOT_PROJECT/settings.gradle"
-sed "s/#{HOOKS_FILE}/$HOOKS_FILE/" template/app/src/main/assets/xposed_init | sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" > "$ROOT_PROJECT/app/src/main/assets/xposed_init"
-sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" template/app/build.gradle > "$ROOT_PROJECT/app/build.gradle"
-sed "s/#{XPOSED_DESCRIPTION}/$XPOSED_DESC/" template/app/src/main/AndroidManifest.xml | sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" > "$ROOT_PROJECT/app/src/main/AndroidManifest.xml"
-sed "s/#{ROOT_PROJECT}/$ROOT_PROJECT/" template/app/src/main/res/values/strings.xml > "$ROOT_PROJECT/app/src/main/res/values/strings.xml"
+sed "s/#{ROOT_PROJECT}/$ROOT_PROJECT/" "$DIR/template/settings.gradle" > "$ROOT_PROJECT/settings.gradle"
+sed "s/#{HOOKS_FILE}/$HOOKS_FILE/" "$DIR/template/app/src/main/assets/xposed_init" | sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" > "$ROOT_PROJECT/app/src/main/assets/xposed_init"
+sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" "$DIR/template/app/build.gradle" > "$ROOT_PROJECT/app/build.gradle"
+sed "s/#{XPOSED_DESCRIPTION}/$XPOSED_DESC/" "$DIR/template/app/src/main/AndroidManifest.xml" | sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" > "$ROOT_PROJECT/app/src/main/AndroidManifest.xml"
+sed "s/#{ROOT_PROJECT}/$ROOT_PROJECT/" "$DIR/template/app/src/main/res/values/strings.xml" > "$ROOT_PROJECT/app/src/main/res/values/strings.xml"
