@@ -1,4 +1,5 @@
 local*
+!template/local.properties
 build
 gradlew*
 .gradle
