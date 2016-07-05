@@ -1,0 +1,3 @@
+Running gradle build should result in a successful build. If it does not then please submit an issue to the repo at https://github.com/wumb0/xposed_mods
+
+Edit the file at the bottom of the tree under app/src/main/java
