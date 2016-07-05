@@ -38,8 +38,8 @@ if [ -z "$COMPANY_NAME" -o -z "$HOOKS_FILE" -o -z "$SDK_DIR" -o -z "$ROOT_PROJEC
     exit
 fi
 
-BUILD_TOOLS_VERSION = `$SDK_DIR/build-tools | sort -n | tail -n 1`
-BUILD_TOOLS_VERSION_MAJ = `echo $BUILD_TOOLS_VERSION | cut -d. -f 1`
+BUILD_TOOLS_VERSION=`ls $SDK_DIR/build-tools | sort -n | tail -n 1`
+BUILD_TOOLS_VERSION_MAJ=`echo $BUILD_TOOLS_VERSION | cut -d. -f 1`
 if [ -z "$BUILD_TOOLS_VERSION" -o $BUILD_TOOLS_VERSION_MAJ -lt 21 ]; then
     echo "Could not find a version of the android build tools to use (needs to be >=21)"
     echo "Install a newer build tools using the android sdk manager (@ $SDK_DIR/tools/android)"
@@ -59,9 +59,8 @@ done
 sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" "$ROOT_PROJECT/app/src/main/java/template.java" | sed "s/#{HOOKS_FILE}/$HOOKS_FILE/" > "$DIRS/$HOOKS_FILE.java"
 rm "$ROOT_PROJECT/app/src/main/java/template.java"
 
-sed "s/#{BUILD_TOOLS_VERSION_MAJ}/$BUILD_TOOLS_VERSION_MAJ/" "$DIR/template/app/build.gradle" > "$ROOT_PROJECT/app/build.gradle" | sed "s/#{BUILD_TOOLS_VERSION}/$BUILD_TOOLS_VERSION/" > "$ROOT_PROJECT/app/build.gradle"
 sed "s/#{ROOT_PROJECT}/$ROOT_PROJECT/" "$DIR/template/settings.gradle" > "$ROOT_PROJECT/settings.gradle"
 sed "s/#{HOOKS_FILE}/$HOOKS_FILE/" "$DIR/template/app/src/main/assets/xposed_init" | sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" > "$ROOT_PROJECT/app/src/main/assets/xposed_init"
-sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" "$DIR/template/app/build.gradle" > "$ROOT_PROJECT/app/build.gradle"
+sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" "$DIR/template/app/build.gradle" | sed "s/#{BUILD_TOOLS_VERSION_MAJ}/$BUILD_TOOLS_VERSION_MAJ/" | sed "s/#{BUILD_TOOLS_VERSION}/$BUILD_TOOLS_VERSION/" > "$ROOT_PROJECT/app/build.gradle" > "$ROOT_PROJECT/app/build.gradle"
 sed "s/#{XPOSED_DESCRIPTION}/$XPOSED_DESC/" "$DIR/template/app/src/main/AndroidManifest.xml" | sed "s/#{PACKAGE_NAME}/$PACKAGE_NAME/" > "$ROOT_PROJECT/app/src/main/AndroidManifest.xml"
 sed "s/#{ROOT_PROJECT}/$ROOT_PROJECT/" "$DIR/template/app/src/main/res/values/strings.xml" > "$ROOT_PROJECT/app/src/main/res/values/strings.xml"
